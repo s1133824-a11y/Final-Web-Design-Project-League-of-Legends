@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>英雄聯盟網頁設計專題製作ㄑ</title>
+    <link rel="stylesheet" href="./style.css">
+
+  </head>
+    
+  <body>
+  <html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>英雄聯盟海克斯電競大廳</title>
+  <style>
+    /* ========================================================
+       基礎核心重設與海克斯暗黑風格設定
+       ======================================================== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Microsoft JhengHei", -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      background-color: #010a13; /* LOL 官方深邃宇宙藍黑 */
+      color: #f0e6d2;            /* 溫和的海克斯古風白 */
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* 客戶端外框 */
+    .lol-client {
+      width: 100%;
+      max-width: 1280px;
+      background: #010a13;
+      border: 1px solid #1e2328; /* 海克斯暗灰線條 */
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ========================================================
+       頂部導覽列 (Header & Navbar)
+       ======================================================== */
+    .lol-header {
+      height: 80px;
+      background: #010a13;
+      border-bottom: 2px solid #32281e; /* 古代金屬暗框 */
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 25px;
+    }
+
+    .client-logo {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .status-indicator {
+      width: 10px;
+      height: 10px;
+      background-color: #00ff88;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #00ff88;
+    }
+
+    .lol-logo-img {
+      height: 32px;
+      object-fit: contain;
+    }
+
+    .lol-nav {
+      display: flex;
+      gap: 5px;
+      height: 100%;
+      align-items: flex-end;
+    }
+
+    .nav-btn {
+      background: transparent;
+      border: none;
+      color: #cdbeaf;
+      padding: 12px 20px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      letter-spacing: 1px;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s ease;
+      margin-bottom: -2px; 
+    }
+
+    .nav-btn:hover {
+      color: #f0e6d2;
+      text-shadow: 0 0 10px rgba(240, 230, 210, 0.5);
+    }
+
+    .nav-btn.active {
+      color: #f0e6d2;
+      border-bottom: 3px solid #c8aa6e; /* 激活動態黃金底邊 */
+      text-shadow: 0 0 12px rgba(200, 170, 110, 0.6);
+    }
+
+    .user-profile {
+      color: #a0a5b0;
+      font-size: 14px;
+      border-left: 1px solid #32281e;
+      padding-left: 20px;
+    }
+
+    /* ========================================================
+       核心顯示與隱藏邏輯
+       ======================================================== */
+    .tab-content {
+      display: none !important; 
+    }
+
+    .tab-content.active {
+      display: block !important; 
+      animation: fadeIn 0.4s ease-out forwards;
+    }
+
+    /* 首頁彈性排版 */
+    .tab-content.active.home-immersive-view {
+      display: flex !important;
+      flex-direction: column;
+      gap: 40px;
+      padding: 40px 25px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 通用海克斯高級按鈕 */
+    .lol-btn, .lol-btn-sm {
+      background: #1e2328;
+      border: 1px solid #785a28;
+      color: #cdbeaf;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.2s ease;
+      text-align: center;
+      text-decoration: none;
+    }
+    .lol-btn { padding: 12px 24px; font-size: 14px; letter-spacing: 1px; display: inline-block; }
+    .lol-btn-sm { padding: 8px 16px; font-size: 12px; width: 100%; margin-top: 10px; }
+
+    .lol-btn:hover, .lol-btn-sm:hover {
+      background: #12161a;
+      border-color: #c8aa6e;
+      color: #f0e6d2;
+      box-shadow: inset 0 0 10px rgba(200, 170, 110, 0.2);
+    }
+
+    /* 通用標題樣式 */
+    .section-title {
+      font-size: 20px;
+      letter-spacing: 2px;
+      color: #f0e6d2;
+      margin-bottom: 25px;
+      border-left: 4px solid #c8aa6e;
+      padding-left: 12px;
+      text-transform: uppercase;
+    }
+
+    /* ========================================================
+       分頁 1: 主題首頁樣式佈局
+       ======================================================== */
+    .home-hero-section {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .personal-home-layout {
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .home-glass-card {
+      background: rgba(1, 10, 19, 0.75);
+      border: 1px solid #32281e;
+      border-left: 3px solid #c8aa6e;
+      padding: 40px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      backdrop-filter: blur(10px);
+    }
+
+    .sub-welcome {
+      font-size: 12px;
+      letter-spacing: 3px;
+      color: #c8aa6e;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .home-main-title {
+      font-size: 32px;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+      color: #f0e6d2;
+    }
+
+    .home-description {
+      font-size: 15px;
+      line-height: 1.7;
+      color: #a0a5b0;
+      margin-bottom: 15px;
+    }
+
+    .home-badges {
+      display: flex;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    .badge {
+      background: rgba(30, 35, 40, 0.8);
+      border: 1px solid #463714;
+      padding: 8px 16px;
+      font-size: 13px;
+      border-radius: 2px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .badge-popover {
+      position: absolute;
+      bottom: 130%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 100px;
+      background-size: cover;
+      background-position: center;
+      border: 2px solid #c8aa6e;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    }
+
+    .badge:hover .badge-popover {
+      opacity: 1;
+      bottom: 140%;
+    }
+
+    /* 海克斯主題曲水晶播放器 */
+    .hextech-music-station {
+      background: rgba(18, 22, 26, 0.85);
+      border: 1px solid #32281e;
+      padding: 25px;
+      width: 100%;
+    }
+
+    .music-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+    }
+
+    .music-card {
+      background: rgba(1, 10, 19, 0.6);
+      border: 1px solid #1e2328;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: border-color 0.3s;
+    }
+
+    .music-card:hover {
+      border-color: #c8aa6e;
+    }
+
+    .music-info h4 {
+      font-size: 16px;
+      color: #f0e6d2;
+      margin-bottom: 4px;
+    }
+
+    .music-info p {
+      font-size: 12px;
+      color: #a0a5b0;
+    }
+
+    /* 內嵌 YouTube 播放器修正比例 */
+    .music-video-wrapper {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%; /* 16:9 比例 */
+      height: 0;
+    }
+
+    .music-video-wrapper iframe {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      border: 1px solid #232930;
+    }
+
+    /* 符文大地新聞週報 */
+    .news-center-section {
+      background: rgba(18, 22, 26, 0.85);
+      border: 1px solid #32281e;
+      padding: 25px;
+      width: 100%;
+    }
+
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(45%, 1fr));
+      gap: 25px;
+    }
+
+    .news-card {
+      background: rgba(1, 10, 19, 0.5);
+      border: 1px solid #232930;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .news-media-box {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      background: #000;
+    }
+
+    .news-media-box iframe {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      border: none;
+    }
+
+    .news-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .news-tag {
+      font-size: 11px;
+      color: #c8aa6e;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .news-title {
+      font-size: 18px;
+      color: #f0e6d2;
+      line-height: 1.4;
+    }
+
+    .news-excerpt {
+      font-size: 13px;
+      color: #a0a5b0;
+      line-height: 1.6;
+    }
+
+    /* ========================================================
+       遊戲大廳雙欄通用結構 (走位、OPGG、年度回顧)
+       ======================================================== */
+    .lol-lobby {
+      display: flex;
+      gap: 25px;
+    }
+
+    @media (max-width: 992px) {
+      .lol-lobby { flex-direction: column; }
+      .sidebar-panel { width: 100% !important; }
+    }
+
+    .game-area {
+      flex: 1;
+      background: #000;
+      border: 1px solid #32281e;
+    }
+
+    .game-wrapper {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      height: 0;
+    }
+
+    .game-wrapper iframe {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+    }
+
+    .sidebar-panel {
+      width: 300px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .panel-section {
+      background: rgba(18, 22, 26, 0.7);
+      border: 1px solid #1e2328;
+      padding: 20px;
+    }
+
+    .panel-section h3 {
+      font-size: 15px;
+      color: #f0e6d2;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+
+    .panel-section p {
+      font-size: 13px;
+      color: #a0a5b0;
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+
+    .status-box .info-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      color: #a0a5b0;
+    }
+
+    .text-green { color: #00ff88; font-weight: bold; }
+
+    /* ========================================================
+       分頁 3: 英雄背景網格與 2D 流光閃卡特效
+       ======================================================== */
+    .lore-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 25px;
+    }
+
+    .lore-card {
+      background: rgba(18, 22, 26, 0.9);
+      border: 1px solid #32281e;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .lore-card:hover {
+      border-color: #c8aa6e;
+      box-shadow: 0 0 20px rgba(200, 170, 110, 0.2);
+    }
+
+    .card-img-container {
+      position: relative;
+      width: 100%;
+      height: 200px;
+      overflow: hidden;
+    }
+
+    .lore-card .card-img {
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center top;
+      transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1), filter 0.4s ease;
+    }
+
+    /* 2D 幻彩高光流光切線 */
+    .card-img-container::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -150%;
+      width: 60%; height: 100%;
+      background: linear-gradient(90deg, transparent 0%, rgba(10, 203, 230, 0.4) 50%, transparent 100%);
+      transform: skewX(-25deg);
+      pointer-events: none;
+    }
+
+    .lore-card:hover .card-img {
+      transform: scale(1.08);
+      filter: brightness(1.1) saturate(1.15);
+    }
+
+    .lore-card:hover .card-img-container::after {
+      left: 160%;
+      transition: left 0.75s ease-out;
+    }
+
+    .card-content {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .champ-title {
+      font-size: 12px;
+      color: #c8aa6e;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+    }
+
+    .champ-name {
+      font-size: 18px;
+      color: #f0e6d2;
+      margin-bottom: 12px;
+    }
+
+    .champ-desc {
+      font-size: 13px;
+      color: #a0a5b0;
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .hidden-full-story { display: none; }
+
+    /* ========================================================
+       分頁 4: OP.GG 戰績面板專屬整合排版
+       ======================================================== */
+    .opgg-header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .opgg-sync-btn {
+      background: #5383e8;
+      color: #ffffff;
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+
+    .opgg-sync-btn:hover { background: #2b62d9; }
+    .opgg-dashboard { display: flex; gap: 25px; align-items: flex-start; }
+
+    .profile-card {
+      width: 320px;
+      background: rgba(18, 22, 26, 0.85);
+      border: 1px solid #32281e;
+      padding: 25px;
+    }
+
+    .avatar-area {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .opgg-avatar {
+      width: 70px;
+      height: 70px;
+      border-radius: 12px;
+      border: 2px solid #c8aa6e;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .tag-tw { background: #e04343; color: white; font-size: 10px; padding: 2px 6px; font-weight: bold; border-radius: 2px; }
+    .name-title { font-size: 16px; color: #f0e6d2; margin: 4px 0; }
+    .level-text { font-size: 12px; color: #a0a5b0; }
+
+    .tier-box {
+      background: rgba(0,0,0,0.3);
+      padding: 15px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      border: 1px solid rgba(200, 170, 110, 0.1);
+    }
+
+    .tier-icon-mock { font-size: 28px; }
+    .queue-type { font-size: 11px; color: #a0a5b0; display: block; }
+    .tier-title { font-size: 15px; color: #f0e6d2; margin: 2px 0; }
+    .winrate-summary { font-size: 12px; color: #cdbeaf; }
+
+    .matches-card {
+      flex: 1;
+      background: rgba(18, 22, 26, 0.85);
+      border: 1px solid #32281e;
+      padding: 25px;
+    }
+
+    .matches-card h3 { font-size: 14px; letter-spacing: 1px; margin-bottom: 15px; color: #cdbeaf; }
+    .matches-scroll-container { max-height: 480px; overflow-y: auto; padding-right: 5px; }
+
+    .match-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px;
+      margin-bottom: 8px;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+
+    .match-row.win { background: rgba(35, 196, 117, 0.1); border-left: 4px solid #23c475; }
+    .match-row.lose { background: rgba(226, 62, 62, 0.1); border-left: 4px solid #e23e3e; }
+    .match-meta { display: flex; flex-direction: column; gap: 3px; width: 80px; }
+    .status-text { font-weight: bold; }
+    .text-blue { color: #23c475; }
+    .text-red { color: #e23e3e; }
+    .mode-text { color: #a0a5b0; font-size: 11px; }
+    .match-champ { display: flex; align-items: center; gap: 10px; width: 100px; }
+    .mini-champ-icon { width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1); }
+    .match-kda { display: flex; flex-direction: column; align-items: center; width: 100px; }
+    .kda-num { font-weight: bold; color: #f0e6d2; }
+    .kda-ratio { font-size: 11px; color: #a0a5b0; margin-top: 2px; }
+    .match-time { color: #a0a5b0; width: 70px; text-align: right; }
+
+    .matches-scroll-container::-webkit-scrollbar { width: 6px; }
+    .matches-scroll-container::-webkit-scrollbar-thumb { background: #c8aa6e; border-radius: 3px; }
+    .matches-scroll-container::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); }
+
+    /* ========================================================
+       🔮 故事大彈窗 (Modal Window Styling)
+       ======================================================== */
+    .lol-modal-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 5, 10, 0.8);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 10000;
+    }
+
+    .lol-modal-overlay.active { opacity: 1; pointer-events: auto; }
+
+    .lol-modal-content {
+      background: #010a13;
+      border: 2px solid #c8aa6e;
+      box-shadow: 0 0 30px rgba(200, 170, 110, 0.3), 0 15px 40px rgba(0,0,0,0.9);
+      width: 90%;
+      max-width: 550px;
+      padding: 35px;
+      position: relative;
+      border-radius: 4px;
+      transform: scale(0.85);
+      transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    .lol-modal-overlay.active .lol-modal-content { transform: scale(1); }
+    .modal-close-btn { position: absolute; top: 15px; right: 20px; background: transparent; border: none; color: #a0a5b0; font-size: 28px; cursor: pointer; }
+    .modal-close-btn:hover { color: #c8aa6e; }
+    .hextech-hr { border: none; height: 1px; background: linear-gradient(90deg, transparent, #c8aa6e, transparent); margin: 15px 0 20px 0; }
+    .modal-full-text { color: #cdbeaf; font-size: 15px; line-height: 1.7; text-align: justify; letter-spacing: 0.5px; }
+  </style>
+</head>
+<body>
+
+<div class="lol-client">
+  <!-- 頂部導覽列 -->
+  <header class="lol-header">
+    <div class="client-logo">
+      <div class="status-indicator"></div>
+      <img src="https://cmsassets.rgpub.io/sanity/images/dsfx7636/news/9eb028de391e65072d06e77f06d0955f66b9fa2c-736x316.png?accountingTag=LoL&auto=format&fit=fill&q=80&w=460" alt="League of Legends" class="lol-logo-img">
+    </div>
+    
+    <nav class="lol-nav">
+      <button class="nav-btn active" data-tab="home">主題首頁</button>
+      <button class="nav-btn" data-tab="game-tab">走位訓練場</button>
+      <button class="nav-btn" data-tab="lore">英雄故事背景</button>
+      <button class="nav-btn" data-tab="stats">OP.GG 戰績面板</button>
+      <button class="nav-btn" data-tab="review">LOL 年度回顧</button>
+    </nav>
+    
+    <div class="user-profile">
+      <span class="summoner-name">可帶走的盛宴 #3563</span>
+    </div>
+  </header>
+
+  <main class="lol-main">
+    
+    <!-- ========================================================
+         分頁 1: 主題首頁
+         ======================================================== -->
+    <section id="home" class="tab-content active home-immersive-view">
+      <!-- 歡迎區卡片 -->
+      <div class="home-hero-section">
+        <div class="personal-home-layout">
+          <div class="home-glass-card">
+            <span class="sub-welcome">WELCOME TO THE RIFT</span>
+            <h2 class="home-main-title">歡迎來到召喚峽谷</h2>
+            
+            <p class="home-description">
+              歡迎來到我的《英雄聯盟》網頁設計專題。本網站以黑闇海克斯科技風格為視覺核心，結合了動態分頁、手刻 OPGG 數據面板，以及互動式走位模擬器。
+            </p>
+            <p class="home-description">
+              此處展示了我對英雄聯盟的熱愛——<strong>並將這份熱血與記憶，轉化為沉浸式的海克斯科技網頁體驗</strong>。透過頂部導覽列，你可以自由切換多功能分頁，探索符文大地的故事背景、檢視即時同步的個人戰績數據，或是直接進入走位特訓場磨練你的極限閃現反應。
+            </p>
+            
+            <div class="home-badges">
+              <span class="badge team-badge">
+                🏆 T1 戰隊
+                <span class="badge-popover" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRgy_l5JpnJMwnb0De26nehgzvyRUOMLq5ZA&s')"></span>
+              </span>
+              <span class="badge team-badge">
+                ⚔️ JDG 戰隊
+                <span class="badge-popover" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSS-QNiIXye738u1NxxbIfETn1hXIMyMzoC_A&s')"></span>
+              </span>
+              <span class="badge team-badge">
+                ⚡ GEN.G 戰隊
+                <span class="badge-popover" style="background-image: url('https://geng.gg/cdn/shop/files/geng.jpg?v=1625519877')"></span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 核心修復：使用 YouTube 官方音源嵌入的水晶音樂播放面板 -->
+      <div class="hextech-music-station">
+        <h3 class="section-title">HEXTECH JUKEBOX // 峽谷交響樂重播器</h3>
+        <div class="music-grid">
+          <!-- 歌曲 1: RISE -->
+          <div class="music-card">
+            <div class="music-info">
+              <h4>RISE (登峰造極境)</h4>
+              <p>Worlds 2018 官方主題曲</p>
+            </div>
+            <div class="music-video-wrapper">
+              <iframe src="https://www.youtube.com/embed/fB8TyLTD7EE" title="RISE" allowfullscreen></iframe>
+            </div>
+          </div>
+          <!-- 歌曲 2: Legends Never Die -->
+          <div class="music-card">
+            <div class="music-info">
+              <h4>Legends Never Die (傳奇永不熄)</h4>
+              <p>Worlds 2017 官方主題曲</p>
+            </div>
+            <div class="music-video-wrapper">
+              <iframe src="https://www.youtube.com/embed/r6zIGXun57U" title="Legends Never Die" allowfullscreen></iframe>
+            </div>
+          </div>
+          <!-- 歌曲 3: GODS 開幕式 -->
+          <div class="music-card">
+            <div class="music-info">
+              <h4>GODS (天神下凡)</h4>
+              <p>NewJeans - Worlds 2023 總決賽盛大開幕式</p>
+            </div>
+            <div class="music-video-wrapper">
+              <iframe src="https://www.youtube.com/embed/uiz7EsMPsuw" title="NewJeans GODS Live" allowfullscreen></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 影音情報中心 (修正：Linkin Park 2024 開幕禮演出) -->
+      <div class="news-center-section">
+        <h3 class="section-title">VALORAN CHRONICLE // 符文大地影音情報中心</h3>
+        <div class="news-grid">
+          <div class="news-card" style="grid-column: 1 / -1;">
+            <div class="news-media-box">
+              <iframe src="https://www.youtube.com/embed/R8OqqaBwcl8" title="Linkin Park Heavy Is the Crown Live" allowfullscreen></iframe>
+            </div>
+            <div class="news-body">
+              <span class="news-tag">2024 世界大賽總決賽開幕典禮</span>
+              <h4 class="news-title">天團聯合公園 Linkin Park 震撼咆哮《Heavy Is the Crown（沉重王冠）》</h4>
+              <p class="news-excerpt">傳奇搖滾天團 Linkin Park 登臨 2024 世界大賽總決賽開幕式現場，引燃萬事達卡贊助的史詩級舞台！主唱 Chester 精神傳承、Emily Armstrong 撕裂爆發力現場演繹年度神曲，伴隨璀璨的現場交響樂與流光特效，將所有戰隊爭奪王座的沉重宿命推向最高潮！</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         分頁 2: 走位訓練場
+         ======================================================== -->
+    <section id="game-tab" class="tab-content">
+      <div class="lol-lobby">
+        <div class="game-area">
+          <div class="game-wrapper">
+            <iframe src="https://loldodgegame.com/dodge/" title="LoL Dodge Game" frameborder="0" allowfullscreen></iframe>
+          </div>
+        </div>
+        <div class="sidebar-panel">
+          <div class="panel-section">
+            <h3>SUMMONER TRAINING</h3>
+            <p>歡迎來到召喚師核心訓練所。利用此處的模擬器提升你的走位與極限閃現反應。</p>
+            <a href="https://loldodgegame.com/dodge/" target="_blank" class="lol-btn">前往走位遊戲官網</a>
+          </div>
+          <div class="panel-section status-box">
+            <h3>TERMINAL INFO</h3>
+            <div class="info-row"><span>連線狀態</span><span class="text-green">ONLINE</span></div>
+            <div class="info-row"><span>目前模式</span><span>DODGE PRACTICE</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         分頁 3: 英雄故事背景 (11位英雄)
+         ======================================================== -->
+    <section id="lore" class="tab-content">
+      <h2 class="section-title">CHAMPION LORE // 英雄故事背景</h2>
+      <div class="lore-grid">
+        
+        <!-- 1. 阿璃 -->
+        <div class="lore-card">
+          <div class="card-img-container">
+            <div class="card-img" style="background-image: url('https://truth.bahamut.com.tw/s01/202107/4188951c8638229214ff94332f67cca9.JPG')"></div>
+          </div>
+          <div class="card-content">
+            <span class="champ-title">九尾妖狐</span>
+            <h3 class="champ-name">阿璃 (Ahri)</h3>
+            <p class="champ-desc">與生俱來便與符文大地的潛在力量相連，阿璃是一名能夠將魔法塑造成純粹能量法球的梵斯塔雅人...</p>
+            <button class="lol-btn-sm open-story-btn">閱讀完整故事</button>
+            <div class="hidden-full-story">與生俱來便與符文大地的潛在力量相連，阿璃是一名能夠將魔法塑造成純粹能量法球的梵斯塔雅人。她沉溺於玩弄獵物的情感，以此激發內心的愉悅，隨後吞噬他們的生命精華。儘管阿璃保留了掠食者的本能，但她對被吞噬者的記憶和情感產生了強烈的共鳴，並在善惡的掙扎中尋求著自己身世的真相。</div>
+          </div>
+        </div>
+
+        <!-- 2. 犽宿 -->
+        <div class="lore-card">
+          <div class="card-img-container">
+            <div class="card-img" style="background-image: url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Yasuo_68.jpg')"></div>
+          </div>
+          <div class="card-content">
+            <span class="champ-title">疾風浪人</span>
+            <h3 class="champ-name">犽宿 (Yasuo)</h3>
+            <p class="champ-desc">犽宿是一名身手敏捷、意志堅定的愛歐尼亞劍客。年輕時他被指控謀殺了自己的長老...</p>
+            <button class="lol-btn-sm open-story-btn">閱讀完整故事</button>
+            <div class="hidden-full-story">犽宿是一名身手敏捷、意志堅定的愛歐尼亞劍客。年輕時傲慢的他被虛假地指控謀殺了自己的授業長老——素馬長老。由於無法證明自己的清白，他被迫拔劍弒兄，並在無盡的追殺中浪跡天涯。如今，御風之術的唯一傳人犽宿，正提著利刃在世界各地遊蕩，一邊尋找著真正的兇手，一邊在狂風中為自己死去的榮譽贖罪。</div>
+          </div>
+        </div>
+
+        <!-- 3. 吉茵珂絲 -->
+        <div class="lore-card">
+          <div class="card-img-container">
+            <div class="card-img" style="background-image: url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Jinx_37.jpg')"></div>
+          </div>
+          <div class="card-content">
+            <span class="champ-title">暴走重砲</span>
+            <h3 class="champ-name">吉茵珂絲 (Jinx)</h3>
+            <p class="champ-desc">一名來自佐恩的瘋狂罪犯，吉茵珂絲活著的目的就是為了肆意搗蛋。她帶著一整批致命的武器...</p>
+            <button class="lol-btn-sm open-story-btn">閱讀完整故事</button>
+            <div class="hidden-full-story">吉茵珂絲是一名來自下層佐恩的瘋狂炸彈客與罪犯。她活著的唯一目的就是為了肆意搗蛋，並給上層皮爾托福帶來毀滅性的混亂與恐慌。她帶著一整批致命的客製化武器——從「魚骨頭」火箭筒到「砰砰」機槍，每一次爆破都是她無拘無束靈魂的交響樂。在瘋狂的背後，隱藏著一段與姊姊菲艾無法割捨的悲慘過去。</div>
+          </div>
+        </div>
+
+        <!-- 4. 瑞爾 -->
+        <div class="lore-card">
+          <div class="card-img-container">
+            <div class="card-img" style="background-image: url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Rell_0.jpg')"></div>
+          </div>
+          <div class="card-content">
+            <span class="champ-title">鋼鐵少女</span>
+            <h3 class="champ-name">瑞爾 (Rell)</h3>
+            <p class="champ-desc">瑞爾是「黑色玫瑰」殘酷實驗下的產物。她能隨心所欲地操縱金屬，誓言要摧毀折磨她的帝國...</p>
+            <button class="lol-btn-sm open-story-btn">閱讀完整故事</button>
+            <div class="hidden-full-story">瑞爾是諾克薩斯神秘組織「黑色玫瑰」殘酷實驗下的悲慘產物。在經歷無數次被迫與同學生死決鬥並剥奪他人魔法的童年後，她覺醒了舉世無雙的操縱鋼鐵（馭鐵術）能力。得知真相的她憤怒地摧毀了實驗室，將鋼鐵化為厚重的戰甲與長槍，誓言要徹底粉碎黑色玫瑰，並向冷酷無情的諾克薩斯帝國展開絕地復仇。</div>
+          </div>
+        </div>
+
+        <!-- 5. 拉克絲 -->
+        <div class="lore-card">
+          <div class="card-img-container">
+            <div class="card-img" style="background-image: url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Lux_0.jpg')"></div>
+          </div>
+          <div class="card-content">
+            <span class="champ-title">光之少女</span>
+            <h3 class="champ-name">拉克絲 (Lux)</h3>
+            <p class="champ-desc">來自蒂瑪西亞的拉克絲出身自尊貴的軍人世家，但她卻身懷不被帝國允許的強大魔法光芒...</p>
+            <button class="lol-btn-sm open-story-btn">閱讀完整故事</button>
+            <div class="hidden-full-story">拉克珊娜．皇冠守衛出身自排斥魔法的蒂瑪西亞軍人世家。然而，她卻在年少時發現自己擁有點亮光芒、操縱光線的強大天賦。為了保護家族的榮譽與自身的安全，她長期隱瞞這個秘密。隨著帝國與魔導士的衝突白熱化，拉克絲選擇用光芒照亮黑暗，偷偷運用魔法幫助受迫害者，嘗試在恐懼與正義之間架起橋樑。</div>
+          </div>
+        </div>
+
+        <!-- 6. 李星 -->
+        <div class="lore-card">
+          <div class="card-img-container">
+            <div class="card-img" style="background-image: url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/LeeSin_0.jpg')"></div>
+          </div>
+          <div class="card-content">
+            <span class="champ-title">盲眼武僧</span>
+            <h3 class="champ-name">李星 (Lee Sin)</h3>
+            <p class="champ-desc">精通愛歐尼亞古老武術的李星，是一名將龍之魂魄化為實體戰鬥的力量行者...</p>
+            <button class="lol-btn-sm open-story-btn">閱讀完整故事</button>
+            <div class="hidden-full-story">精通愛歐尼亞古老武術的李星，是一名將神聖龍之魂魄化為實體戰鬥的力量行者。年輕時他因傲慢而犯下大錯導致家園陷入危機，為了彌補過錯，他在諾克薩斯入侵時，不惜點燃自身雙眼以換取神龍的遠古怒火。即使雙眼失明，他也靠著完美的聽覺與精神感知守護家園，用致命的拳腳與堅定的鋼鐵意志捍衛符文大地的和平。</div>
+          </div>
+        </div>
+
+        <!-- 7. 劫 -->
+        <div class="lore-card">
+          <div class="card-img-container">
+            <div class="card-img" style="background-image: url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Zed_0.jpg')"></div>
+          </div>
+          <div class="card-content">
+            <span class="champ-title">影之刃</span>
+            <h3 class="champ-name">劫 (Zed)</h3>
+            <p class="champ-desc">劫是影之教派的領袖，他解開了禁忌的暗影魔法，帶領追隨者無情地剷除所有敵人...</p>
+            <button class="lol-btn-sm open-story-btn">閱讀完整故事</button>
+            <div class="hidden-full-story">劫是神秘「影之教派」的最高領袖。原本是均衡教派優秀弟子的他，因為不滿師父在面對戰爭時的過度仁慈與不作為，毅然決然解開了塵封千年的禁忌暗影魔法盒。他背叛了均衡教派、斬殺了師父，並帶領追隨者組建影之軍隊。在他的邏輯中，為了保護愛歐尼亞不擇手段，即便是沉淪於無盡的黑暗與鮮血也在所不惜。</div>
+          </div>
+        </div>
+
+        <!-- 8. 凱莎 -->
+        <div class="lore-card">
+          <div class="card-img-container">
+            <div class="card-img" style="background-image: url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Kaisa_0.jpg')"></div>
+          </div>
+          <div class="card-content">
+            <span class="champ-title">虛空之女</span>
+            <h3 class="champ-name">凱莎 (Kai'Sa)</h3>
+            <p class="champ-desc">童年時被無情地捲入地底深淵，凱莎靠著純粹的意志力在充滿怪物的虛空世界中存活下來...</p>
+            <button class="lol-btn-sm open-story-btn">閱讀完整故事</button>
+            <div class="hidden-full-story">十歲時被殘酷捲入地底深淵的凱莎，本應成為虛空生物的口中食。但她憑藉著純粹且驚人的生存意志，與一隻虛空生物融為一體，使對方的皮膚化作她身上堅不可摧、能發射致命電漿導彈的活體甲殼。從此，她成為了行走在凡間與虛空裂痕間的頂尖獵手。儘管世人懼怕她怪物般的外表，她依然默默肩負著阻擋虛空吞噬符文大地的沉重宿命。</div>
+          </div>
+        </div>
+
+        <!-- 9. 卡薩丁 -->
+        <div class="lore-card">
+          <div class="card-img-container">
+            <div class="card-img" style="background-image: url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Kassadin_0.jpg')"></div>
+          </div>
+          <div class="card-content">
+            <span class="champ-title">虛空行者</span>
+            <h3 class="champ-name">卡薩丁 (Kassadin)</h3>
+            <p class="champ-desc">卡薩丁在符文大地最黑暗的角落斬出一條血路。他知道自己留在世上的時間已經不多了...</p>
+            <button class="lol-btn-sm open-story-btn">閱讀完整故事</button>
+            <div class="hidden-full-story">卡薩丁原本是一名行走於恕瑞瑪沙漠的嚮導與商人，直到一場虛空浩劫吞噬了他摯愛的妻女。為了復仇，他搜集了符文大地上最古老的禁忌神器與魔法護甲，不惜讓自己的肉身受到虛空能量的無情侵蝕。他揮舞著充盈冥府能量的虛空之刃，獨自穿梭於幽冥的深淵深處，誓要手刃虛空先知馬爾札哈，在生命走向終點前完成殘酷的末日救贖。</div>
+          </div>
+        </div>
+
+        <!-- 10. 沃利貝爾 -->
+        <div class="lore-card">
+          <div class="card-img-container">
+            <div class="card-img" style="background-image: url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Volibear_0.jpg')"></div>
+          </div>
+          <div class="card-content">
+            <span class="champ-title">不滅狂雷</span>
+            <h3 class="champ-name">沃利貝爾 (Volibear)</h3>
+            <p class="champ-desc">對那些至今仍崇拜祂的人來說，沃利貝爾是風暴的化身。祂代表了弗雷爾卓德原始的野性...</p>
+            <button class="lol-btn-sm open-story-btn">閱讀完整故事</button>
+            <div class="hidden-full-story">沃利貝爾是弗雷爾卓德古老的半神之一，象徵著永不熄滅的雷霆與野蠻殘酷的原始荒野。隨著凡人開始築起城牆、擁抱文明，祂的古老力量逐漸衰退。憤怒的巨熊半神決心撕碎所有文明的偽裝，慢條斯理地扯裂大地、呼喚狂暴的暴風雪與落雷，誓要用鮮血與戰爭讓凡人重回對大自然的恐懼，捍衛這片凍土最原始的古老榮耀。</div>
+          </div>
+        </div>
+
+        <!-- 11. 維爾戈 -->
+        <div class="lore-card">
+          <div class="card-img-container">
+            <div class="card-img" style="background-image: url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Viego_0.jpg')"></div>
+          </div>
+          <div class="card-content">
+            <span class="champ-title">破敗之王</span>
+            <h3 class="champ-name">維爾戈 (Viego)</h3>
+            <p class="champ-desc">曾是一個失落國度的國王。維爾戈在千年前死於一場大災變，如今化為充滿破敗氣息的怨靈...</p>
+            <button class="lol-btn-sm open-story-btn">閱讀完整故事</button>
+            <div class="hidden-full-story">維爾戈曾是卡馬維亞帝國的年輕統治者，他無可救藥地愛上了平民出身的王妃伊索德。然而伊索德遭遇暗殺中毒身亡，幾近瘋狂的維爾戈將王妃的屍體帶往福光島的生命之泉，試圖逆天改命。清泉遭到執念的污染，引發了毀天滅地的破敗詛咒，將他轉化為掌控黑霧的死靈之王。千年後祂再度甦醒，手持破敗王之刃將黑霧席捲全球，不惜毀滅整個符文大地也要尋回愛妻碎裂的靈魂。</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================
+         分頁 4: OP.GG 戰績面板
+         ======================================================== -->
+    <div class="lol-nav">
+  <button class="nav-btn active" data-tab="stats">召喚師情報</button>
+  <button class="nav-btn" data-tab="review">年度賽季回顧</button>
+</div>
+
+<main>
+  <section id="stats" class="tab-content active">
+    <div class="opgg-header-bar">
+      <h2 class="section-title" style="margin: 0;">OP.GG SUMMONER PROFILE // 召喚師情報面板</h2>
+      <a href="https://op.gg/zh-tw/lol/summoners/tw/可帶走的盛宴-3563" target="_blank" class="opgg-sync-btn">前往 OP.GG 網頁</a>
+    </div>
+    
+    <div class="opgg-dashboard">
+      <div class="profile-card">
+        <div class="avatar-area">
+          <div class="opgg-avatar" style="background-image: url('https://ddragon.leagueoflegends.com/cdn/13.24.1/img/profileicon/29.png');"></div>
+          <div>
+            <span class="tag-tw">TW</span>
+            <h3 class="name-title">可帶走的盛宴</h3>
+            <span class="level-text">Level 356</span>
+          </div>
+        </div>
+        <div class="tier-box">
+          <div class="tier-icon-mock">🥇</div>
+          <div>
+            <span class="queue-type">單排/雙排</span>
+            <h4 class="tier-title">Gold I</h4>
+            <span class="winrate-summary">65勝 45敗 (59%)</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="matches-card">
+        <h3>近期對戰紀錄 (20場)</h3>
+        <div class="matches-scroll-container" id="matchesContainer"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="review" class="tab-content">
+    <h2 class="section-title">YEAR IN REVIEW // 年度賽季回顧</h2>
+    
+    <div class="carousel-container">
+      <div class="carousel-slide active">
+        <img src="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Ahri_7.jpg" alt="Ahri Skin">
+        <div class="carousel-caption">精選造型回顧：星光戰士 阿璃</div>
+      </div>
+      <div class="carousel-slide">
+        <img src="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Yasuo_2.jpg" alt="Yasuo Skin">
+        <div class="carousel-caption">精選造型回顧：電玩高手 犽宿</div>
+      </div>
+      <div class="carousel-slide">
+        <img src="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Jinx_4.jpg" alt="Jinx Skin">
+        <div class="carousel-caption">精選造型回顧：特工女郎 吉茵珂絲</div>
+      </div>
+      
+      <button class="carousel-btn prev" id="prevBtn">&#10094;</button>
+      <button class="carousel-btn next" id="nextBtn">&#10095;</button>
+      <div class="carousel-dots" id="carouselDots"></div>
+    </div>
+
+    <div class="lol-lobby">
+      <div class="game-area">
+        <div class="game-wrapper">
+          <iframe src="https://www.youtube.com/embed/g6bI7b68Xm8" title="Season 2024 Look Ahead" allowfullscreen></iframe>
+        </div>
+      </div>
+      <div class="sidebar-panel">
+        <div class="panel-section">
+          <h3>SEASON 2024</h3>
+          <p>回顧《英雄聯盟》2024 賽季的史詩級變動：包含虛空地形的演進、裝備系統的全面翻新，以及全新英雄的降臨。</p>
+          <p>準備好迎接下一個充滿挑戰的賽季了嗎，召喚師？</p>
+        </div>
+        
+        <div class="card-content">
+          <h4 class="champ-name" style="margin:0 0 10px 0; color:var(--gold-primary);">九尾妖狐 阿璃</h4>
+          <button class="open-story-btn opgg-sync-btn">點擊閱讀英雄背景</button>
+          <span class="hidden-full-story" style="display:none;">
+            阿璃與生俱來便與精神領域的魔法緊密相連。她是一名來歷不明的瓦斯塔亞，在世界上尋找著關於自己身世的線索。
+            
+            在吸取凡人的情感與記憶精華的同時，她也能從中感受到獨特的樂趣與人性。
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<button class="back-to-top" id="backToTopBtn" title="回到最上方">TOP</button>
+
+<div class="lol-modal-overlay" id="storyModal">
+  <div class="lol-modal-content">
+    <button class="modal-close-btn" id="closeModal">&times;</button>
+    <h3 class="champ-name" id="modalTitle" style="font-size:24px; color:#f0e6d2;"></h3>
+    <hr class="hextech-hr">
+    <p class="modal-full-text" id="modalText"></p>
+  </div>
+</div>
+    <!-- ========================================================
+         分頁 5: LOL 年度回顧
+         ======================================================== -->
+   
+
+  <!-- 🔮 故事背景大彈窗結構 -->
+  <div id="story-modal" class="lol-modal-overlay">
+    <div class="lol-modal-content">
+      <button class="modal-close-btn">&times;</button>
+      <span id="modal-champ-title" class="champ-title">英雄稱號</span>
+      <h3 id="modal-champ-name" class="champ-name" style="font-size: 24px; margin-bottom: 5px;">英雄名字</h3>
+      <div class="hextech-hr"></div>
+      <p id="modal-champ-story" class="modal-full-text">載入故事中...</p>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================================
+     JavaScript 原生雙向綁定與彈窗控制
+     ======================================================== -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  // 1. 全導覽列分頁切換控制邏輯
+  const navButtons = document.querySelectorAll(".nav-btn");
+  const tabSections = document.querySelectorAll(".tab-content");
+
+  navButtons.forEach((button) => {
+    button.addEventListener("click", function () {
+      const targetTabId = this.getAttribute("data-tab");
+
+      navButtons.forEach((btn) => btn.classList.remove("active"));
+      tabSections.forEach((section) => section.classList.remove("active"));
+
+      this.classList.add("active");
+      
+      // 修正對應：點擊「主題首頁」切換為 home，「走位訓練場」切換為 game-tab
+      let targetSection;
+      if (targetTabId === "home") targetSection = document.getElementById("home");
+      else if (targetTabId === "game-tab" || targetTabId === "dodging") targetSection = document.getElementById("game-tab");
+      else targetSection = document.getElementById(targetTabId);
+
+      if (targetSection) {
+        targetSection.classList.add("active");
+      }
+    });
+  });
+
+  // 2. 英雄故事背景彈窗管理邏輯
+  const modal = document.getElementById("story-modal");
+  const modalTitle = document.getElementById("modal-champ-title");
+  const modalName = document.getElementById("modal-champ-name");
+  const modalStory = document.getElementById("modal-champ-story");
+  const closeBtn = document.querySelector(".modal-close-btn");
+
+  document.querySelectorAll(".open-story-btn").forEach((button) => {
+    button.addEventListener("click", function () {
+      const card = this.closest(".lore-card");
+
+      const champTitle = card.querySelector(".champ-title").innerText;
+      const champName = card.querySelector(".champ-name").innerText;
+      const fullStory = card.querySelector(".hidden-full-story").innerText;
+
+      modalTitle.innerText = champTitle;
+      modalName.innerText = champName;
+      modalStory.innerText = fullStory;
+
+      modal.classList.add("active");
+    });
+  });
+
+  closeBtn.addEventListener("click", function () {
+    modal.classList.remove("active");
+  });
+
+  modal.addEventListener("click", function (e) {
+    if (e.target === modal) {
+      modal.classList.remove("active");
+    }
+  });
+});
+</script>
+
+</body>
+</html>
+    <script  src="./script.js"></script>
+
+  </body>
+  
+</html>
